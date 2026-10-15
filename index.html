@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!--
+  [보안] 이 페이지가 불러올 수 있는 곳을 제한합니다.
+  Worker에 개인 도메인을 연결하면 connect-src에 그 주소를 추가하세요.
+-->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://*.workers.dev; img-src 'self' data:; style-src 'self'; font-src 'self'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="description" content="(주)다원안전 견적문의 — 설계안전성검토, 안전보건대장, 유해위험방지계획서, 안전관리계획서, 교육시설안전성평가">
+<title>지금 견적받기 | (주)다원안전</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="style.css">
+<script src="config.js"></script>
+<script src="app.js" defer></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+</head>
+<body>
+<div class="dwq-page">
+
+<header class="dwq-header">
+  <div class="dwq-wrap dwq-header-in">
+    <a class="dwq-brand" href="./" aria-label="(주)다원안전">
+      <!-- 로고: assets/logo.png 파일을 교체하면 됩니다. -->
+      <img src="assets/logo.png" alt="(주)다원안전" id="dwqLogo">
+      <span class="dwq-brand-text" id="dwqLogoText" hidden>(주)다원안전</span>
+    </a>
+  </div>
+</header>
+
+<main class="dwq-wrap">
+<h1 class="dwq-title">지금 견적받기</h1>
+
+<noscript><p class="dwq-status err" style="display:block">이 페이지는 자바스크립트가 필요합니다. 전화(02-2039-9273)로 문의해 주세요.</p></noscript>
+
+<form class="dwq-card" id="dwqForm" novalidate>
+<div class="dwq-grid">
+<section>
+  <div class="dwq-field">
+    <span class="dwq-label" id="dwqReportsLabel">필요한 보고서 <span class="dwq-required">*</span></span>
+    <div class="dwq-checks" role="group" aria-labelledby="dwqReportsLabel">
+      <label class="dwq-check"><input name="report" type="checkbox" value="설계안전성검토"> 설계안전성검토(DFS)</label>
+      <label class="dwq-check"><input name="report" type="checkbox" value="기본안전보건대장"> 기본안전보건대장</label>
+      <label class="dwq-check"><input name="report" type="checkbox" value="설계안전보건대장"> 설계안전보건대장</label>
+      <label class="dwq-check"><input name="report" type="checkbox" value="공사안전보건대장"> 공사안전보건대장</label>
+      <label class="dwq-check"><input name="report" type="checkbox" value="유해위험방지계획서"> 유해위험방지계획서</label>
+      <label class="dwq-check"><input name="report" type="checkbox" value="안전관리계획서"> 안전관리계획서</label>
+      <label class="dwq-check"><input name="report" type="checkbox" value="교육시설안전성평가"> 교육시설안전성평가</label>
+    </div>
+  </div>
+
+  <div class="dwq-docs">
+    <strong>✓ 선택 보고서별 필요서류</strong>
+    <p>선택한 보고서에 필요한 서류를 중복 없이 보여드립니다.</p>
+    <ul id="dwqDocs"><li>보고서를 하나 이상 선택해 주세요.</li></ul>
+  </div>
+
+  <div class="dwq-field">
+    <span class="dwq-label" id="dwqSourceLabel">다원안전을 어떤 경로로 알게 되셨나요? <span class="dwq-required">*</span></span>
+    <div class="dwq-radios" role="radiogroup" aria-labelledby="dwqSourceLabel">
+      <label class="dwq-radio"><input type="radio" name="source" value="인터넷 검색"> 인터넷 검색</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="네이버 광고"> 네이버 광고</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="AI 검색(GPT, 제미나이 등)"> AI 검색(GPT, 제미나이 등)</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="다원안전 홈페이지"> 다원안전 홈페이지</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="다원안전 블로그"> 다원안전 블로그</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="지인/업체 소개"> 지인/업체 소개</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="기존 거래/재문의"> 기존 거래/재문의</label>
+      <label class="dwq-radio dwq-radio-etc">
+        <input type="radio" name="source" value="기타" id="dwqSourceEtcRadio"> 기타:
+        <input type="text" id="dwqSourceEtc" maxlength="100" placeholder="직접 입력" aria-label="기타 경로 직접 입력">
+      </label>
+    </div>
+  </div>
+
+  <div class="dwq-field">
+    <span class="dwq-label">참조 필요서류 업로드</span>
+    <label class="dwq-files" for="dwqFiles" id="dwqDrop">
+      <input id="dwqFiles" type="file" multiple
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.hwp,.hwpx,.jpg,.jpeg,.png,.dwg,.dxf,.zip">
+      <strong>파일을 선택하거나 여기로 끌어다 놓으세요</strong>
+      <span>PDF · Word · Excel · PPT · HWP · JPG · PNG · DWG · DXF · ZIP</span>
+      <span class="dwq-file-note">최대 15개 / 전체 1GB (파일 1개 최대 1GB)</span>
+    </label>
+    <ul class="dwq-file-list" id="dwqFileList"></ul>
+    <p class="dwq-file-total" id="dwqFileTotal" hidden></p>
+  </div>
+</section>
+
+<section>
+  <div class="dwq-field">
+    <label class="dwq-label" for="dwqWho">신청자 정보(회사명 / 성함 / 직책) <span class="dwq-required">*</span></label>
+    <input id="dwqWho" type="text" maxlength="120" autocomplete="organization" placeholder="예) 다원안전 / 홍길동 / 과장" required>
+  </div>
+  <div class="dwq-field">
+    <label class="dwq-label" for="dwqPhone">연락처 <span class="dwq-required">*</span></label>
+    <input id="dwqPhone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" placeholder="예) 010-1234-5678" required>
+  </div>
+  <div class="dwq-field">
+    <label class="dwq-label" for="dwqEmail">이메일 주소 <span class="dwq-required">*</span></label>
+    <input id="dwqEmail" type="email" maxlength="120" autocomplete="email" placeholder="you@company.com" required>
+  </div>
+  <div class="dwq-field">
+    <label class="dwq-label" for="dwqProject">프로젝트명 <span class="dwq-required">*</span></label>
+    <input id="dwqProject" type="text" maxlength="150" placeholder="예) ○○초등학교 증축공사" required>
+  </div>
+  <div class="dwq-field">
+    <label class="dwq-label" for="dwqWork">현장 세부 공종 <span class="dwq-required">*</span></label>
+    <input id="dwqWork" type="text" maxlength="150" placeholder="예) 건축 / 토목 / 관로 설비" required>
+  </div>
+  <div class="dwq-field">
+    <label class="dwq-label" for="dwqCost">총 공사금액 <span class="dwq-required">*</span></label>
+    <input id="dwqCost" type="text" maxlength="30" placeholder="예) 50억원, 5백만원, 500000000" required>
+    <p class="dwq-hint" id="dwqCostHint"></p>
+  </div>
+  <div class="dwq-field">
+    <label class="dwq-label" for="dwqNotes">기타 특이조건 및 요청사항</label>
+    <textarea id="dwqNotes" maxlength="2000" placeholder="희망 납기일, 현장 특수조건 등을 적어주세요."></textarea>
+  </div>
+
+  <!-- 스팸봇용 숨김 항목: 정상 사용자는 건드리지 않습니다. -->
+  <div class="dwq-sr-only" aria-hidden="true">
+    <label>Website<input id="dwqWebsite" type="text" tabindex="-1" autocomplete="off"></label>
+  </div>
+
+  <div class="dwq-privacy">
+    <label>
+      <input id="dwqPrivacy" type="checkbox" required>
+      <span><b>개인정보 수집·이용에 동의합니다.</b><br>
+        수집항목: 회사명/성명/직책, 연락처, 이메일, 프로젝트 정보, 첨부파일. 목적: 견적 상담 및 문의 처리. 보유기간: 문의 처리 및 계약 관련 업무에 필요한 기간 후 파기. 동의를 거부할 수 있으나 견적문의 접수가 제한될 수 있습니다.</span>
+    </label>
+  </div>
+
+  <div class="dwq-turnstile" id="dwqTurnstile"></div>
+
+  <div class="dwq-btns">
+    <button class="dwq-btn dwq-primary" id="dwqSubmit" type="submit">견적 문의 접수</button>
+    <a class="dwq-call" href="tel:02-2039-9273">📞 02-2039-9273</a>
+  </div>
+
+  <div class="dwq-progress" id="dwqProgress" hidden>
+    <div class="dwq-progress-bar"><span id="dwqProgressBar"></span></div>
+    <p id="dwqProgressText">업로드 준비 중...</p>
+    <p class="dwq-progress-note">업로드가 끝날 때까지 이 창을 닫지 마세요.</p>
+  </div>
+
+  <div class="dwq-status" id="dwqStatus" role="status" aria-live="polite"></div>
+
+  <div class="dwq-contact">
+    <b>서류접수창구</b><br>
+    평일 09:00~18:00
+  </div>
+</section>
+</div>
+</form>
+</main>
+
+<footer class="dwq-foot">© (주)다원안전</footer>
+</div>
+</body>
+</html>
