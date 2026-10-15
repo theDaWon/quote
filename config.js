@@ -5,6 +5,6 @@
   ※ 비밀키(Secret Key)는 절대 이 파일이나 GitHub에 넣지 마세요.
 */
 window.DWQ_CONFIG = {
-  WORKER_URL: 'https://dawon-quote.YOUR-SUBDOMAIN.workers.dev',
-  TURNSTILE_SITEKEY: 'YOUR_TURNSTILE_SITE_KEY'
+  WORKER_URL: 'https://dawon-quote.dawonsafety1.workers.dev',
+  TURNSTILE_SITEKEY: '0x4AAAAAAFXTFaVg6cM54yKp'
 };
