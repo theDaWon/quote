@@ -40,6 +40,23 @@
 <form class="dwq-card" id="dwqForm" novalidate>
 <div class="dwq-grid">
 <section>
+    <div class="dwq-field">
+    <span class="dwq-label" id="dwqSourceLabel">다원안전을 어떤 경로로 알게 되셨나요? <span class="dwq-required">*</span></span>
+    <div class="dwq-radios" role="radiogroup" aria-labelledby="dwqSourceLabel">
+      <label class="dwq-radio"><input type="radio" name="source" value="인터넷 검색"> 인터넷 검색</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="네이버 광고"> 네이버 광고</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="AI 검색(GPT, 제미나이 등)"> AI 검색(GPT, 제미나이 등)</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="다원안전 홈페이지"> 다원안전 홈페이지</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="다원안전 블로그"> 다원안전 블로그</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="지인/업체 소개"> 지인/업체 소개</label>
+      <label class="dwq-radio"><input type="radio" name="source" value="기존 거래/재문의"> 기존 거래/재문의</label>
+      <label class="dwq-radio dwq-radio-etc">
+        <input type="radio" name="source" value="기타" id="dwqSourceEtcRadio"> 기타:
+        <input type="text" id="dwqSourceEtc" maxlength="100" placeholder="직접 입력" aria-label="기타 경로 직접 입력">
+      </label>
+    </div>
+  </div>
+  
   <div class="dwq-field">
     <span class="dwq-label" id="dwqReportsLabel">필요한 보고서 <span class="dwq-required">*</span></span>
     <div class="dwq-checks" role="group" aria-labelledby="dwqReportsLabel">
@@ -57,23 +74,6 @@
     <strong>✓ 선택 보고서별 필요서류</strong>
     <p>선택한 보고서에 필요한 서류를 중복 없이 보여드립니다.</p>
     <ul id="dwqDocs"><li>보고서를 하나 이상 선택해 주세요.</li></ul>
-  </div>
-
-  <div class="dwq-field">
-    <span class="dwq-label" id="dwqSourceLabel">다원안전을 어떤 경로로 알게 되셨나요? <span class="dwq-required">*</span></span>
-    <div class="dwq-radios" role="radiogroup" aria-labelledby="dwqSourceLabel">
-      <label class="dwq-radio"><input type="radio" name="source" value="인터넷 검색"> 인터넷 검색</label>
-      <label class="dwq-radio"><input type="radio" name="source" value="네이버 광고"> 네이버 광고</label>
-      <label class="dwq-radio"><input type="radio" name="source" value="AI 검색(GPT, 제미나이 등)"> AI 검색(GPT, 제미나이 등)</label>
-      <label class="dwq-radio"><input type="radio" name="source" value="다원안전 홈페이지"> 다원안전 홈페이지</label>
-      <label class="dwq-radio"><input type="radio" name="source" value="다원안전 블로그"> 다원안전 블로그</label>
-      <label class="dwq-radio"><input type="radio" name="source" value="지인/업체 소개"> 지인/업체 소개</label>
-      <label class="dwq-radio"><input type="radio" name="source" value="기존 거래/재문의"> 기존 거래/재문의</label>
-      <label class="dwq-radio dwq-radio-etc">
-        <input type="radio" name="source" value="기타" id="dwqSourceEtcRadio"> 기타:
-        <input type="text" id="dwqSourceEtc" maxlength="100" placeholder="직접 입력" aria-label="기타 경로 직접 입력">
-      </label>
-    </div>
   </div>
 
   <div class="dwq-field">
