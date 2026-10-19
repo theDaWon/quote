@@ -48,6 +48,7 @@ html,body{margin:0;padding:0;background:#f7f8fa}
 .dwq-files input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .dwq-files strong{display:block;color:var(--blue);margin-bottom:4px}
 .dwq-files>span{display:block;line-height:1.6;word-break:keep-all}
+.dwq-file-warn{margin:-4px 0 8px;font-size:12px;color:#ba1a1a}
 .dwq-file-note{font-size:12px;color:#687386;margin-top:8px}
 .dwq-file-list{list-style:none;padding:0;margin:12px 0 0}
 .dwq-file-list li{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#f2f4f7;border:1px solid #e3e7ec;border-radius:8px;padding:8px 10px;margin:6px 0;font-size:12px}
