@@ -198,6 +198,8 @@
   // 읽을 수 없는 글이면 null 을 돌려줍니다.
   function parseWon(input) {
     let s = String(input == null ? '' : input).replace(/[\s,원]/g, '').replace(/^(약|금)/, '');
+    // 한글 숫자(일~구)를 아라비아 숫자로 바꿉니다. 예) 사십사억 → 4십4억, 삼백만 → 3백만
+    s = s.replace(/[일이삼사오육륙칠팔구]/g, c => ({ '일': 1, '이': 2, '삼': 3, '사': 4, '오': 5, '육': 6, '륙': 6, '칠': 7, '팔': 8, '구': 9 })[c]);
     if (!s || s.length > 30) return null;
     if (/^\d+$/.test(s)) return s.length <= 16 && Number(s) >= 1 ? Number(s) : null;
     if (!/^((\d+(\.\d+)?[십백천]?|[십백천])+[만억조]?)+$/.test(s)) return null;
@@ -240,7 +242,7 @@
     const n = parseWon(raw);
     costHint.classList.toggle('bad', !!raw && n === null);
     costHint.textContent = !raw ? '' : n === null
-      ? '금액을 읽을 수 없습니다. 예) 50억원, 5백만원, 500000000'
+      ? '금액을 읽을 수 없습니다. 예) 50억원, 오십억, 5백만원, 500000000'
       : '= ' + n.toLocaleString('ko-KR') + '원 (' + koreanWon(n) + ')';
   });
 
@@ -341,7 +343,7 @@
     phone.value = data.phone;
     if (!PHONE_RE.test(data.phone)) return setStatus(false, '전화번호 형식을 확인해 주세요. 예) 010-1234-5678, 02-123-4567, 1588-0000');
     if (!/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(data.email)) return setStatus(false, '이메일 주소를 확인해 주세요.');
-    if (parseWon(data.cost) === null) return setStatus(false, '공사금액을 확인해 주세요. 예) 50억원, 5백만원, 500000000');
+    if (parseWon(data.cost) === null) return setStatus(false, '공사금액을 확인해 주세요. 예) 50억원, 오십억, 5백만원, 500000000');
     if (!data.privacy) return setStatus(false, '개인정보 수집·이용에 동의해 주세요.');
     if (!turnstileToken) return setStatus(false, '자동 접수 방지 확인란을 체크해 주세요.');
 
