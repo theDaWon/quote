@@ -150,6 +150,40 @@
   drop.addEventListener('drop', e => { if (e.dataTransfer && e.dataTransfer.files) addFiles([...e.dataTransfer.files]); });
   document.querySelectorAll('input[name="report"]').forEach(x => x.addEventListener('change', updateDocs));
 
+  // ---------- 공사기간 적정성검토: 착공·준공 예정일 ----------
+  // '공사기간 적정성검토'를 선택하면 우측 상단에 날짜 입력칸(달력)이 나타납니다.
+  const PERIOD_REPORT = '공사기간 적정성검토';
+  const periodBox = $('dwqPeriod');
+  const startIn = $('dwqStart');
+  const endIn = $('dwqEnd');
+  const periodHint = $('dwqPeriodHint');
+  const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
+  function periodSelected() {
+    return !!document.querySelector('input[name="report"][value="' + PERIOD_REPORT + '"]:checked');
+  }
+  function togglePeriod() {
+    const on = periodSelected();
+    periodBox.hidden = !on;
+    startIn.required = endIn.required = on;
+  }
+  // 두 날짜 사이 기간 (착공일·준공일 모두 포함한 일수)
+  function periodDays(a, b) {
+    if (!DATE_RE.test(a) || !DATE_RE.test(b)) return null;
+    return Math.round((Date.parse(b) - Date.parse(a)) / 864e5) + 1;
+  }
+  function updatePeriodHint() {
+    endIn.min = startIn.value || '2000-01-01';
+    const days = periodDays(startIn.value, endIn.value);
+    periodHint.classList.toggle('bad', days !== null && days < 1);
+    if (days === null) periodHint.textContent = '달력 아이콘을 눌러 날짜를 고르세요.';
+    else if (days < 1) periodHint.textContent = '준공 예정일이 착공 예정일보다 빠릅니다.';
+    else periodHint.textContent = '예정 공사기간: ' + days.toLocaleString('ko-KR') + '일 (약 ' + (Math.round(days / 30.4 * 10) / 10) + '개월)';
+  }
+  startIn.addEventListener('change', updatePeriodHint);
+  endIn.addEventListener('change', updatePeriodHint);
+  document.querySelectorAll('input[name="report"]').forEach(x => x.addEventListener('change', togglePeriod));
+
   // '기타' 칸에 글을 쓰기 시작하면 '기타'가 자동 선택됩니다.
   const sourceEtc = $('dwqSourceEtc');
   sourceEtc.addEventListener('input', () => { if (sourceEtc.value.trim()) $('dwqSourceEtcRadio').checked = true; });
@@ -333,12 +367,18 @@
       work: $('dwqWork').value.trim(),
       cost: cost.value.trim(),
       notes: $('dwqNotes').value.trim(),
+      startDate: periodSelected() ? startIn.value : '',
+      endDate: periodSelected() ? endIn.value : '',
       reports,
       privacy: $('dwqPrivacy').checked,
       honeypot: $('dwqWebsite').value
     };
 
     if (!reports.length) return setStatus(false, '보고서를 하나 이상 선택해 주세요.');
+    if (data.startDate || periodSelected()) {
+      if (!DATE_RE.test(data.startDate) || !DATE_RE.test(data.endDate)) return setStatus(false, '공사기간 적정성검토: 착공 예정일과 준공 예정일을 달력에서 선택해 주세요.');
+      if (periodDays(data.startDate, data.endDate) < 1) return setStatus(false, '공사기간 적정성검토: 준공 예정일이 착공 예정일보다 빠릅니다.');
+    }
     if (!data.source) return setStatus(false, '다원안전을 알게 된 경로를 선택해 주세요.');
     if (data.source === '기타' && !data.sourceEtc) return setStatus(false, '기타 경로를 적어 주세요.');
     if (!data.who || !data.project || !data.work) return setStatus(false, '필수 항목(*)을 모두 입력해 주세요.');
@@ -382,6 +422,8 @@
       costHint.textContent = '';
       costHint.classList.remove('bad');
       updateDocs();
+      togglePeriod();
+      updatePeriodHint();
       setStatus(true, result.message + ' (접수번호: ' + result.id + ')');
     } catch (err) {
       setStatus(false, (err && err.message && err.message !== 'Failed to fetch' && err.message !== 'server')
@@ -398,5 +440,7 @@
   });
 
   updateDocs();
+  togglePeriod();
+  updatePeriodHint();
   renderFiles();
 })();
