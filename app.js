@@ -152,6 +152,47 @@
   const sourceEtc = $('dwqSourceEtc');
   sourceEtc.addEventListener('input', () => { if (sourceEtc.value.trim()) $('dwqSourceEtcRadio').checked = true; });
 
+  // ---------- 연락처 하이픈 자동 입력 ----------
+  // 숫자만 골라 아래 형식으로 하이픈(-)을 넣습니다.
+  //   02-000-0000 / 02-0000-0000       (서울 02)
+  //   000-000-0000 / 000-0000-0000     (휴대폰·지역번호 3자리)
+  //   0000-0000                        (1588·1544 같은 대표번호)
+  // 입력 중에는 입력한 데까지만 나눠서 보여줍니다.
+  function formatPhone(value) {
+    const d = String(value == null ? '' : value).replace(/\D/g, '').slice(0, 11);
+    if (!d) return '';
+    if (d[0] !== '0') {                                   // 대표번호 0000-0000
+      const n = d.slice(0, 8);
+      return n.length <= 4 ? n : n.slice(0, 4) + '-' + n.slice(4);
+    }
+    if (d.startsWith('02')) {                             // 서울 02
+      const n = d.slice(0, 10);
+      if (n.length <= 2) return n;
+      if (n.length <= 5) return n.slice(0, 2) + '-' + n.slice(2);
+      if (n.length <= 9) return n.slice(0, 2) + '-' + n.slice(2, 5) + '-' + n.slice(5);
+      return n.slice(0, 2) + '-' + n.slice(2, 6) + '-' + n.slice(6);
+    }
+    if (d.length <= 3) return d;                          // 010, 031 등 3자리
+    if (d.length <= 6) return d.slice(0, 3) + '-' + d.slice(3);
+    if (d.length <= 10) return d.slice(0, 3) + '-' + d.slice(3, 6) + '-' + d.slice(6);
+    return d.slice(0, 3) + '-' + d.slice(3, 7) + '-' + d.slice(7);
+  }
+  const PHONE_RE = /^(02-\d{3,4}-\d{4}|0\d{2}-\d{3,4}-\d{4}|[1-9]\d{3}-\d{4})$/;
+
+  const phone = $('dwqPhone');
+  phone.addEventListener('input', () => {
+    // 커서 앞에 있던 숫자 개수를 기억했다가, 하이픈을 넣은 뒤 같은 자리로 커서를 돌려놓습니다.
+    const caret = phone.selectionStart == null ? phone.value.length : phone.selectionStart;
+    const digitsBefore = phone.value.slice(0, caret).replace(/\D/g, '').length;
+    const formatted = formatPhone(phone.value);
+    if (formatted === phone.value) return;
+    phone.value = formatted;
+    let pos = 0, seen = 0;
+    while (pos < formatted.length && seen < digitsBefore) { if (/\d/.test(formatted[pos])) seen++; pos++; }
+    try { phone.setSelectionRange(pos, pos); } catch (_) { /* 무시 */ }
+  });
+  phone.addEventListener('blur', () => { phone.value = formatPhone(phone.value); });
+
   // ---------- 공사금액 읽기 ----------
   // "50억원", "5백만", "3억 5천만원", "1.5억", "500,000,000" 모두 숫자(원)로 바꿉니다.
   // 읽을 수 없는 글이면 null 을 돌려줍니다.
@@ -282,7 +323,7 @@
       source: sourcePicked ? sourcePicked.value : '',
       sourceEtc: sourcePicked && sourcePicked.value === '기타' ? sourceEtc.value.trim() : '',
       who: $('dwqWho').value.trim(),
-      phone: $('dwqPhone').value.trim(),
+      phone: formatPhone(phone.value),
       email: $('dwqEmail').value.trim(),
       project: $('dwqProject').value.trim(),
       work: $('dwqWork').value.trim(),
@@ -297,7 +338,8 @@
     if (!data.source) return setStatus(false, '다원안전을 알게 된 경로를 선택해 주세요.');
     if (data.source === '기타' && !data.sourceEtc) return setStatus(false, '기타 경로를 적어 주세요.');
     if (!data.who || !data.project || !data.work) return setStatus(false, '필수 항목(*)을 모두 입력해 주세요.');
-    if (!/^0\d{1,2}-?\d{3,4}-?\d{4}$/.test(data.phone.replace(/\s/g, ''))) return setStatus(false, '전화번호 형식을 확인해 주세요.');
+    phone.value = data.phone;
+    if (!PHONE_RE.test(data.phone)) return setStatus(false, '전화번호 형식을 확인해 주세요. 예) 010-1234-5678, 02-123-4567, 1588-0000');
     if (!/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]+$/.test(data.email)) return setStatus(false, '이메일 주소를 확인해 주세요.');
     if (parseWon(data.cost) === null) return setStatus(false, '공사금액을 확인해 주세요. 예) 50억원, 5백만원, 500000000');
     if (!data.privacy) return setStatus(false, '개인정보 수집·이용에 동의해 주세요.');
