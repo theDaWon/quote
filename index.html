@@ -94,6 +94,7 @@
 </section>
 
 <section>
+
   <div class="dwq-field">
     <label class="dwq-label" for="dwqWho">신청자 정보(회사명 / 성함 / 직책) <span class="dwq-required">*</span></label>
     <input id="dwqWho" type="text" maxlength="120" autocomplete="organization" placeholder="예) 다원안전 / 홍길동 / 과장" required>
@@ -119,6 +120,22 @@
     <input id="dwqCost" type="text" maxlength="30" placeholder="예) 50억원, 오십억, 5백만원, 500,000,000" required>
     <p class="dwq-hint" id="dwqCostHint"></p>
   </div>
+    <!-- '공사기간 적정성검토'를 선택했을 때만 보입니다. -->
+  <div class="dwq-period" id="dwqPeriod" hidden>
+    <strong>공사기간 적정성검토 정보</strong>
+    <div class="dwq-period-row">
+      <div class="dwq-field">
+        <label class="dwq-label" for="dwqStart">착공 예정일 <span class="dwq-required">*</span></label>
+        <input id="dwqStart" type="date" min="2000-01-01" max="2100-12-31">
+      </div>
+      <div class="dwq-field">
+        <label class="dwq-label" for="dwqEnd">준공 예정일 <span class="dwq-required">*</span></label>
+        <input id="dwqEnd" type="date" min="2000-01-01" max="2100-12-31">
+      </div>
+    </div>
+    <p class="dwq-hint" id="dwqPeriodHint">달력 아이콘을 눌러 날짜를 고르세요.</p>
+  </div>
+
   <div class="dwq-field">
     <label class="dwq-label" for="dwqNotes">기타 특이조건 및 요청사항</label>
     <textarea id="dwqNotes" maxlength="2000" placeholder="흙막이 유무(설계안전성검토), 대상학교명(교육시설안전성평가), 희망 납기일, 현장 특수조건 등을 적어주세요."></textarea>
