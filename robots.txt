@@ -1,0 +1,6 @@
+# 모든 검색엔진의 수집을 허용합니다.
+User-agent: *
+Allow: /
+
+# ★ 아래 주소를 실제 페이지 주소로 바꾸세요.
+Sitemap: https://thedawon.github.io/quote/sitemap.xml

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ★ <loc>의 주소를 실제 페이지 주소로 바꾸세요. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://thedawon.github.io/quote/</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+</urlset>
